@@ -15,7 +15,7 @@ public class TestaPessoa {
 
         EntityManager entityManager = fabrica.createEntityManager();
 
-        Pessoa pessoa = new Pessoa("Liliana", "4002-8922", "liliana.dp@gmail.com");
+        Pessoa pessoa = new Pessoa("Diogo", "4002-8922", "josediogo.dp@gmail.com");
 
 
         entityManager.getTransaction().begin();
@@ -59,11 +59,39 @@ public class TestaPessoa {
         fabrica.close();
     }
 
+    private static void remover(long id){
+        EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaPU");
+
+        EntityManager entityManager = fabrica.createEntityManager();
+
+        entityManager.getTransaction().begin();
+        Pessoa pessoa = entityManager.find(Pessoa.class, id);
+        entityManager.remove(pessoa);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        fabrica.close();
+    }
+
+    private static void alterar(long id){
+        EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaPU");
+
+        EntityManager entityManager = fabrica.createEntityManager();
+
+        entityManager.getTransaction().begin();
+        Pessoa pessoa = entityManager.find(Pessoa.class, id);
+        pessoa.setNome("Nome Alterado");
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        fabrica.close();
+    }
+
     public static void main(String[] args) {
 
-        persistir();
-        //listar();
+        //persistir();
+        //persistir();
         //consultar();
-
+        //remover(2L);
+        alterar(3);
+        listar();
     }
 }
