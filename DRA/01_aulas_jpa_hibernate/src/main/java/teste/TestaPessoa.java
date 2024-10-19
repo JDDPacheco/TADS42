@@ -61,9 +61,9 @@ public class TestaPessoa {
 
     public static void main(String[] args) {
 
-        //persistir();
+        persistir();
         //listar();
-        consultar();
+        //consultar();
 
     }
 }
