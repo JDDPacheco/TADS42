@@ -1,6 +1,7 @@
 package teste;
 
 import model.Cidade;
+import model.Pessoa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -45,11 +46,24 @@ public class TestaCidade {
         fabrica.close();
     }
 
+    private static void remover(long id){
+        EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaPU");
+
+        EntityManager entityManager = fabrica.createEntityManager();
+
+        entityManager.getTransaction().begin();
+        Cidade cidade = entityManager.find(Cidade.class, id);
+        entityManager.remove(cidade);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        fabrica.close();
+    }
+
     public static void main(String[] args) {
 
-        persistir("Manaquiri", "1302553", "AM");
+        //persistir("Manaquiri", "1302553", "AM");
         //consultar();
-        //remover(2L);
+        remover(3);
         //alterar(3, "Diogo");
         //mesclar(3, "José");
         listar();
