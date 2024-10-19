@@ -10,13 +10,12 @@ import java.util.List;
 
 public class TestaPessoa {
 
-    private static void persistir(){
+    private static void persistir(String cpf, String nome, String email, String telefone){
         EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaPU");
 
         EntityManager entityManager = fabrica.createEntityManager();
 
-        Pessoa pessoa = new Pessoa("Diogo", "4002-8922", "josediogo.dp@gmail.com");
-
+        Pessoa pessoa = new Pessoa(nome, telefone, email, cpf);
 
         entityManager.getTransaction().begin();
         entityManager.persist(pessoa);
@@ -37,6 +36,8 @@ public class TestaPessoa {
         List<Pessoa> pessoas = query.getResultList();
 
         for(Pessoa p: pessoas){
+            System.out.println(p.getCpf());
+            System.out.println(p.getId());
             System.out.println(p.getNome());
             System.out.println(p.getEmail());
             System.out.println(p.getTelefone());
@@ -72,26 +73,47 @@ public class TestaPessoa {
         fabrica.close();
     }
 
-    private static void alterar(long id){
+    private static void alterar(long id, String nome){
         EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaPU");
 
         EntityManager entityManager = fabrica.createEntityManager();
 
         entityManager.getTransaction().begin();
         Pessoa pessoa = entityManager.find(Pessoa.class, id);
-        pessoa.setNome("Nome Alterado");
+        pessoa.setNome(nome);
         entityManager.getTransaction().commit();
+        entityManager.close();
+        fabrica.close();
+    }
+
+    private static void mesclar(long id, String nome){
+        EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaPU");
+        EntityManager entityManager = fabrica.createEntityManager();
+
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(id);
+        pessoa.setNome(nome);
+        pessoa.setEmail("josediogo.dp@gmail.com");
+        pessoa.setTelefone("4002-8922");
+
+        entityManager.getTransaction().begin();
+
+        entityManager.merge(pessoa);
+
+        entityManager.getTransaction().commit();
+
         entityManager.close();
         fabrica.close();
     }
 
     public static void main(String[] args) {
 
-        //persistir();
-        //persistir();
+
+        persistir("00340091240", "Liliana", "lilica@gmail.com", "(92) 99247-0453");
         //consultar();
         //remover(2L);
-        alterar(3);
+        //alterar(3, "Diogo");
+        //mesclar(3, "José");
         listar();
     }
 }
