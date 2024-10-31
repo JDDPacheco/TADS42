@@ -13,7 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextMessage;
+    private EditText editTextMessage1;
+    private EditText editTextMessage2;
+    private EditText editTextMessage3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +28,16 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        editTextMessage = findViewById(R.id.editTextMessage);
+        editTextMessage1 = findViewById(R.id.editTextMessage_1);
+        editTextMessage2 = findViewById(R.id.editTextMessage_2);
+        editTextMessage3 = findViewById(R.id.editTextMessage_3);
     }
 
     public void SendMessageOnClick(View view){
         Intent intent = new Intent(this, ShowMessageActivity.class);
-        intent.putExtra("message",editTextMessage.getText().toString());
+        intent.putExtra("message1",editTextMessage1.getText().toString());
+        intent.putExtra("message2", editTextMessage2.getText().toString());
+        intent.putExtra("message3", editTextMessage3.getText().toString());
         startActivity(intent);
     }
 

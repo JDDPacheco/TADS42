@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Send Message</string>
-    <string name="message_write_message">Write a Message</string>
+    <string name="message_write_message">Write the first Message</string>
+    <string name="message_write_message_2">Write the second Message</string>
+    <string name="message_write_message_3">Write the third Message</string>
     <string name="button_send">Send</string>
 </resources>
