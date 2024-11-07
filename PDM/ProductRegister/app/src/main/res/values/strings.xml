@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ProductRegister</string>
+    <string name="description_Text">Description</string>
+    <string name="price">Price $</string>
+    <string name="incomming_qty">Incomming Quantity</string>
+    <string name="date">Select incomming date</string>
+    <string-array name="suppliersList">
+        <item>Fornecedor</item>
+        <item>Geolab</item>
+        <item>Neo Química</item>
+        <item>Pharlab</item>
+        <item>EMS</item>
+        <item>Teuto</item>
+    </string-array>
+</resources>
