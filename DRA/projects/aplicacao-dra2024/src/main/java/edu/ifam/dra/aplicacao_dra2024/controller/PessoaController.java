@@ -22,7 +22,9 @@ public class PessoaController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Pessoa create(@RequestBody Pessoa pessoa){return pessoaRepository.save(pessoa);}
+    public Pessoa create(@RequestBody Pessoa pessoa){
+        return pessoaRepository.save(pessoa);
+    }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Pessoa getById(@PathVariable Long id){
