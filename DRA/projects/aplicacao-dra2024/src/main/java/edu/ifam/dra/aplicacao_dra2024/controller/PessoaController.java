@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -30,4 +29,21 @@ public class PessoaController {
     public Pessoa getById(@PathVariable Long id){
         return pessoaRepository.findById(id).get();
     };
+
+    @DeleteMapping(value = "/{id}")
+    public String delete(@PathVariable Long id) {
+        // Verifica se o registro existe antes de tentar excluir
+        if (pessoaRepository.existsById(id)) {
+            pessoaRepository.deleteById(id);
+            // Verifica se a exclusão foi bem-sucedida
+            if (!pessoaRepository.existsById(id)) {
+                return "Deletado com sucesso!";
+            } else {
+                return "Erro ao deletar. O item não foi excluído.";
+            }
+        } else {
+            return "Item não encontrado.";
+        }
+    }
+
 }
