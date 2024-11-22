@@ -39,8 +39,9 @@ public class PessoaController {
 
         Pessoa pessoa_created = pessoaRepository.save(pessoa);
 
-        /** Teste quando não criar a pessoa*/
-        //pessoaRepository.deleteById(pessoa_created.getId());
+        /** Início Testes: */
+        /** Forçar erro de não criar a pessoa*/
+            //pessoaRepository.deleteById(pessoa_created.getId());
         /** Fim Teste*/
 
         if(pessoaRepository.existsById(pessoa_created.getId())) {
