@@ -1,9 +1,6 @@
 package edu.ifam.dra.aplicacao_dra2024.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Pessoa {
@@ -15,6 +12,9 @@ public class Pessoa {
     private String nome;
 
     private  String email;
+
+    @ManyToOne
+    private Cidade cidade;
 
     public Long getId() {
         return id;

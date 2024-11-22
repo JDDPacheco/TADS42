@@ -2,6 +2,7 @@ package edu.ifam.dra.aplicacao_dra2024.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,6 @@ public class Cidade {
 
     private String estado;
 
-    @ManyToOne
-    private List<Pessoa> pessoas;
+    @OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY)
+    private List<Pessoa> pessoas = new ArrayList<>();
 }
