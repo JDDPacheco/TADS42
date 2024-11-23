@@ -1,6 +1,5 @@
 package edu.ifam.dra.aplicacao_dra2024.dto;
 
-import edu.ifam.dra.aplicacao_dra2024.model.Cidade;
 import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
 import edu.ifam.dra.aplicacao_dra2024.repository.CidadeRepository;
 
@@ -43,4 +42,5 @@ public class PessoaInputDTO {
         pessoa.setCidade(cidadeRepository.findByNome(this.cidade));
         return pessoa;
     }
+
 }

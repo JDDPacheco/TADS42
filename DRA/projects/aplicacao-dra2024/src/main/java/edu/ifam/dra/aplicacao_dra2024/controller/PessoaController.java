@@ -2,7 +2,6 @@ package edu.ifam.dra.aplicacao_dra2024.controller;
 
 import edu.ifam.dra.aplicacao_dra2024.dto.PessoaInputDTO;
 import edu.ifam.dra.aplicacao_dra2024.dto.PessoaOutputDTO;
-import edu.ifam.dra.aplicacao_dra2024.model.Cidade;
 import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
 import edu.ifam.dra.aplicacao_dra2024.repository.PessoaRepository;
 import edu.ifam.dra.aplicacao_dra2024.repository.CidadeRepository;
