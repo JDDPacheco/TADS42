@@ -1,20 +1,19 @@
-package edu.ifam.dra.aplicacao_dra2024.model;
+package edu.ifam.dra.aplicacao_dra2024.dto;
 
-import jakarta.persistence.*;
+import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
 
-@Entity
-public class Pessoa {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PessoaOutputDTO {
     private Long id;
-
     private String nome;
+    private String email;
+    private String cidade;
 
-    private  String email;
-
-    @ManyToOne
-    private Cidade cidade;
+    public PessoaOutputDTO(Pessoa pessoa) {
+        this.nome = pessoa.getNome();
+        this.email = pessoa.getEmail();
+        this.id = pessoa.getId();
+        this.cidade = pessoa.getCidade().getNome();
+    }
 
     public Long getId() {
         return id;
@@ -40,11 +39,11 @@ public class Pessoa {
         this.email = email;
     }
 
-    public Cidade getCidade() {
+    public String getCidade() {
         return cidade;
     }
 
-    public void setCidade(Cidade cidade) {
+    public void setCidade(String cidade) {
         this.cidade = cidade;
     }
 }
