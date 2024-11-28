@@ -6,6 +6,46 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <EditText
+        android:id="@+id/etCodigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/res_codigo"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/etNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/res_name"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/etTelefone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/res_telefone"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/res_email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/etEndereco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/res_address"
+        android:inputType="text" />
+
     <TextView
         android:id="@+id/codigoTextView"
         android:layout_width="wrap_content"
@@ -39,4 +79,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp" />
+
 </LinearLayout>
