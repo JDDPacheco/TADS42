@@ -5,6 +5,7 @@ import edu.ifam.dra.aplicacao_dra2024.dto.PessoaOutputDTO;
 import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
 import edu.ifam.dra.aplicacao_dra2024.repository.PessoaRepository;
 import edu.ifam.dra.aplicacao_dra2024.repository.CidadeRepository;
+import edu.ifam.dra.aplicacao_dra2024.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,20 +27,22 @@ public class PessoaController {
     @Autowired
     private CidadeRepository cidadeRepository;
 
+    @Autowired
+    private PessoaService pessoaService;
+
     @GetMapping
     public ResponseEntity<List<PessoaOutputDTO>> list(){
+        try{
 
-        List<Pessoa> pessoas = pessoaRepository.findAll();
-        List<PessoaOutputDTO> pessoasDTO= new ArrayList<>();
+            List<PessoaOutputDTO> pessoasDTO = pessoaService.list();
+            if(!pessoasDTO.isEmpty()){
+                return new ResponseEntity<>(pessoasDTO, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
 
-        for (Pessoa pessoa:pessoas){
-            pessoasDTO.add(new PessoaOutputDTO(pessoa));
-        }
-
-        if(!pessoas.isEmpty()){
-            return new ResponseEntity<>(pessoasDTO, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
         }
     }
 
