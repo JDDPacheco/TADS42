@@ -1,4 +1,4 @@
-package br.edu.ifam.recycler;
+package com.luizfelipe.recycler.entity;
 
 public class Fornecedor {
     private int codigo;
@@ -27,11 +27,10 @@ public class Fornecedor {
         return telefone;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getEndereco() {
         return endereco;
     }
+
+    public String getEmail() { return endereco; }
 }
+
