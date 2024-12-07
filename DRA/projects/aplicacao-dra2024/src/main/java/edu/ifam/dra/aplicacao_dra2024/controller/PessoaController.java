@@ -33,14 +33,12 @@ public class PessoaController {
     @GetMapping
     public ResponseEntity<List<PessoaOutputDTO>> list(){
         try{
-
             List<PessoaOutputDTO> pessoasDTO = pessoaService.list();
             if(!pessoasDTO.isEmpty()){
                 return new ResponseEntity<>(pessoasDTO, HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
         }
@@ -57,7 +55,6 @@ public class PessoaController {
             } else if(!cidadeRepository.existsById(pessoa.getCidade().getId())){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-
             Pessoa pessoa_created = pessoaRepository.save(pessoa);
 
             /** Início Testes: */
