@@ -55,6 +55,7 @@ public class PessoaController {
             } else if(!cidadeRepository.existsById(pessoa.getCidade().getId())){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
+
             Pessoa pessoa_created = pessoaRepository.save(pessoa);
 
             /** Início Testes: */

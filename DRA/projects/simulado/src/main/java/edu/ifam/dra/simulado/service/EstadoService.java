@@ -14,28 +14,21 @@ public class EstadoService {
     private EstadoRepository estadoRepository;
 
     public List<Estado> list (){
-        List<Estado> estados = estadoRepository.findAll();
-        return estados;
+        return estadoRepository.findAll();
     }
 
     public Estado create(Estado estado){
-        Estado estadoCreated = estadoRepository.save(estado);
-        return estadoCreated;
+        return estadoRepository.save(estado);
     }
 
     public Estado getByIBGE(String ibge){
-        Estado estadoFound = estadoRepository.findById(ibge).get();
-        return estadoFound;
+        return estadoRepository.findById(ibge).get();
     }
 
     public boolean delete(String ibge){
         if(estadoRepository.existsById(ibge)){
             estadoRepository.deleteById(ibge);
-            if(!estadoRepository.existsById(ibge)){
-                return true;
-            }else{
-                return false;
-            }
+            return !estadoRepository.existsById(ibge);
         }else{
             return false;
         }

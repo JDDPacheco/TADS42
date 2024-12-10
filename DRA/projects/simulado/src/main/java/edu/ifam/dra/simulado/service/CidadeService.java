@@ -14,28 +14,21 @@ public class CidadeService {
     private CidadeRepository cidadeRepository;
 
     public List<Cidade> list(){
-        List<Cidade> cidades = cidadeRepository.findAll();
-        return cidades;
+        return cidadeRepository.findAll();
     }
 
     public Cidade create(Cidade cidade){
-        Cidade cidadeCreated = cidadeRepository.save(cidade);
-        return cidadeCreated;
+        return cidadeRepository.save(cidade);
     }
 
     public Cidade getByIBGE(String ibge){
-        Cidade cidadeFound = cidadeRepository.findById(ibge).get();
-        return cidadeFound;
+        return cidadeRepository.findById(ibge).get();
     }
 
     public boolean delete(String ibge){
         if(cidadeRepository.existsById(ibge)){
             cidadeRepository.deleteById(ibge);
-            if(!cidadeRepository.existsById(ibge)){
-                return true;
-            }else{
-                return false;
-            }
+            return !cidadeRepository.existsById(ibge);
         }else{
             return false;
         }
