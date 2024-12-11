@@ -1,10 +1,12 @@
 package edu.ifam.dra.simulado.service;
 
+import edu.ifam.dra.simulado.dto.LogradouroOutputDTO;
 import edu.ifam.dra.simulado.model.Logradouro;
 import edu.ifam.dra.simulado.repository.LogradouroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,16 +15,21 @@ public class LogradouroService {
     @Autowired
     private LogradouroRepository logradouroRepository;
 
-    public List<Logradouro> list(){
-        return logradouroRepository.findAll();
+    public List<LogradouroOutputDTO> list(){
+        List<Logradouro> logradouros = logradouroRepository.findAll();
+        List<LogradouroOutputDTO> logradourosDTO = new ArrayList<>();
+        for(Logradouro logradouro: logradouros){
+            logradourosDTO.add(new LogradouroOutputDTO(logradouro));
+        }
+        return logradourosDTO;
     }
 
-    public Logradouro create(Logradouro logradouro){
-        return logradouroRepository.save(logradouro);
+    public LogradouroOutputDTO create(Logradouro logradouro){
+        return new LogradouroOutputDTO(logradouroRepository.save(logradouro));
     }
 
-    public Logradouro findByCEP(String cep){
-        return logradouroRepository.findById(cep).get();
+    public LogradouroOutputDTO findByCEP(String cep){
+        return new LogradouroOutputDTO(logradouroRepository.findById(cep).get());
     }
 
     public boolean delete(String cep){
