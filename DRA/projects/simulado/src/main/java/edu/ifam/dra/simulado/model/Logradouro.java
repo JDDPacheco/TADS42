@@ -15,7 +15,7 @@ public class Logradouro {
     private String nome; //(nn)
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "cidade_ibge", nullable = false)
     private Cidade cidade; //(nn)
 
     @OneToMany(mappedBy = "logradouro", fetch = FetchType.LAZY)

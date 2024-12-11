@@ -18,7 +18,7 @@ public class Pessoa {
     private String telefone;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "logradouro_cep", nullable = false)
     private Logradouro logradouro;
 
     @Column(nullable = false)

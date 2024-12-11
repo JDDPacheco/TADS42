@@ -30,13 +30,11 @@ public class PessoaService {
     }
 
     public PessoaOutputDTO create(PessoaInputDTO pessoaInputDTO){
-        Pessoa pessoa_input = pessoaInputDTO.build(logradouroRepository);
-        Pessoa pessoa_created = pessoaRepository.save(pessoa_input);
-        return new PessoaOutputDTO(pessoa_created);
+        return new PessoaOutputDTO(pessoaRepository.save(pessoaInputDTO.build(logradouroRepository)));
     }
 
-    public Pessoa findByCPF(String cpf){
-        return pessoaRepository.findById(cpf).get();
+    public PessoaOutputDTO findByCPF(String cpf){
+        return new PessoaOutputDTO(pessoaRepository.findById(cpf).get());
     }
 
     public boolean delete(String cpf){
