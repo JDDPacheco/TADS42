@@ -1,8 +1,10 @@
 package edu.ifam.dra.simulado.service;
 
+import edu.ifam.dra.simulado.dto.CidadeInputDTO;
 import edu.ifam.dra.simulado.dto.CidadeOutputDTO;
 import edu.ifam.dra.simulado.model.Cidade;
 import edu.ifam.dra.simulado.repository.CidadeRepository;
+import edu.ifam.dra.simulado.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class CidadeService {
     @Autowired
     private CidadeRepository cidadeRepository;
 
+    @Autowired
+    private EstadoRepository estadoRepository;
+
     public List<CidadeOutputDTO> list(){
         List<Cidade> cidades = cidadeRepository.findAll();
         List<CidadeOutputDTO> cidadesDTO = new ArrayList<>();
@@ -24,8 +29,8 @@ public class CidadeService {
         return cidadesDTO;
     }
 
-    public CidadeOutputDTO create(Cidade cidade){
-        return new CidadeOutputDTO(cidadeRepository.save(cidade));
+    public CidadeOutputDTO create(CidadeInputDTO cidadeInputDTO){
+        return new CidadeOutputDTO(cidadeRepository.save(cidadeInputDTO.build(estadoRepository)));
     }
 
     public CidadeOutputDTO getByIBGE(String ibge){

@@ -1,9 +1,10 @@
 package edu.ifam.dra.simulado.controller;
 
-import edu.ifam.dra.simulado.dto.EstadoOutputDTO;
-import edu.ifam.dra.simulado.model.Estado;
-import edu.ifam.dra.simulado.repository.LogradouroRepository;
-import edu.ifam.dra.simulado.service.EstadoService;
+import edu.ifam.dra.simulado.dto.CidadeInputDTO;
+import edu.ifam.dra.simulado.dto.CidadeOutputDTO;
+import edu.ifam.dra.simulado.model.Cidade;
+import edu.ifam.dra.simulado.repository.EstadoRepository;
+import edu.ifam.dra.simulado.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,18 +15,18 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/estado")
-public class EstadoController {
+@RequestMapping("/api/cidade")
+public class CidadeController {
 
     @Autowired
-    private EstadoService estadoService;
+    private CidadeService cidadeService;
 
     @GetMapping
-    public ResponseEntity<List<EstadoOutputDTO>> list(){
+    public ResponseEntity<List<CidadeOutputDTO>> list(){
         try{
-            List<EstadoOutputDTO> estadosDTO = estadoService.list();
-            if(!estadosDTO.isEmpty())
-                return new ResponseEntity<>(estadosDTO, HttpStatus.OK);
+            List<CidadeOutputDTO> cidadesDTO = cidadeService.list();
+            if(cidadesDTO != null)
+                return new ResponseEntity<>(cidadesDTO, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -34,11 +35,11 @@ public class EstadoController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EstadoOutputDTO> create(@RequestBody Estado estado){
+    public ResponseEntity<CidadeOutputDTO> create(@RequestBody CidadeInputDTO cidade){
         try{
-            EstadoOutputDTO estadoDTO = estadoService.create(estado);
-            if(estadoDTO != null)
-                return new ResponseEntity<>(estadoDTO, HttpStatus.OK);
+            CidadeOutputDTO cidadeDTO = cidadeService.create(cidade);
+            if(cidadeDTO != null)
+                return new ResponseEntity<>(cidadeDTO, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -47,11 +48,11 @@ public class EstadoController {
     }
 
     @GetMapping(value = "/{ibge}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EstadoOutputDTO> getByIBGE(@PathVariable String ibge){
+    public ResponseEntity<CidadeOutputDTO> getByIBGE(@PathVariable String ibge){
         try{
-            EstadoOutputDTO estadoDTO = estadoService.getByIBGE(ibge);
-            if(estadoDTO != null)
-                return new ResponseEntity<>(estadoDTO, HttpStatus.OK);
+            CidadeOutputDTO cidadeDTO = cidadeService.getByIBGE(ibge);
+            if(cidadeDTO != null)
+                return new ResponseEntity<>(cidadeDTO, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
@@ -62,8 +63,8 @@ public class EstadoController {
     @DeleteMapping(value = "/{ibge}")
     public ResponseEntity<String> delete(@PathVariable String ibge){
         try{
-            boolean deleted = estadoService.delete(ibge);
-            if(deleted)
+            boolean deleted = cidadeService.delete(ibge);
+            if (deleted)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             else
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

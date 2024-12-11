@@ -7,12 +7,12 @@ public class LogradouroOutputDTO {
 
     private String cep;
     private String nome;
-    private Cidade cidade;
+    private String cidade;
 
     public LogradouroOutputDTO(Logradouro logradouro) {
         this.cep = logradouro.getCep();
         this.nome = logradouro.getNome();
-        this.cidade = logradouro.getCidade();
+        this.cidade = logradouro.getCidade().getNome();
     }
 
     public String getCep() {
@@ -31,11 +31,11 @@ public class LogradouroOutputDTO {
         this.nome = nome;
     }
 
-    public Cidade getCidade() {
+    public String getCidade() {
         return cidade;
     }
 
-    public void setCidade(Cidade cidade) {
+    public void setCidade(String cidade) {
         this.cidade = cidade;
     }
 }
