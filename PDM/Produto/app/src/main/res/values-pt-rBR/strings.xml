@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Produto</string>
+    <string name="res_code">codigo</string>
+    <string name="res_name">nome</string>
+    <string name="res_telefone">telefone</string>
+    <string name="res_email">email</string>
+    <string name="res_endereco">endereço</string>
+</resources>

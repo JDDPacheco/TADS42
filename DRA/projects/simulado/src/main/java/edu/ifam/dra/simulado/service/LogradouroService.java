@@ -30,7 +30,11 @@ public class LogradouroService {
     }
 
     public LogradouroOutputDTO create(LogradouroInputDTO logradouro){
-        return new LogradouroOutputDTO(logradouroRepository.save(logradouro.build(cidadeRepository)));
+        Logradouro logradouro_input = logradouro.build(cidadeRepository);
+        Logradouro logradouro_created = logradouroRepository.save(logradouro_input);
+        return new LogradouroOutputDTO(logradouro_created);
+        //return logradouro_output;
+        //return new LogradouroOutputDTO(logradouroRepository.save(logradouro.build(cidadeRepository)));
     }
 
     public LogradouroOutputDTO findByCEP(String cep){
