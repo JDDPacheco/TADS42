@@ -40,4 +40,8 @@ public class EstadoService {
             return false;
         }
     }
+
+    public EstadoOutputDTO update(Estado estado){
+        return new EstadoOutputDTO(estadoRepository.save(estado));
+    }
 }

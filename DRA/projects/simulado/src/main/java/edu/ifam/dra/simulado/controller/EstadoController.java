@@ -72,4 +72,17 @@ public class EstadoController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<EstadoOutputDTO> update(@RequestBody Estado estado){
+        try{
+            EstadoOutputDTO estadoDTO = estadoService.update(estado);
+            if(estadoDTO != null)
+                return new ResponseEntity<>(estadoDTO, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
 }

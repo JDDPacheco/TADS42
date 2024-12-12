@@ -45,4 +45,12 @@ public class CidadeService {
             return false;
         }
     }
+
+    public CidadeOutputDTO update(CidadeInputDTO cidadeInputDTO){
+        Cidade cidade = cidadeInputDTO.build(estadoRepository);
+        if(cidadeRepository.existsById(cidade.getIbge()))
+            return new CidadeOutputDTO(cidadeRepository.save(cidade));
+        else
+            return null;
+    }
 }

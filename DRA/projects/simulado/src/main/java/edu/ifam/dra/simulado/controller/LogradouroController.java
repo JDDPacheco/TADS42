@@ -9,12 +9,12 @@ import java.util.List;
 public class LogradouroController {
     private LogradouroService logradouroService;
 
-    public ResponseEntity<List<LogradouroOutputDTO>> list(){
+    /*public ResponseEntity<List<LogradouroOutputDTO>> list(){
         try {
             List<LogradouroOutputDTO> logradouros = logradouroService.list();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }

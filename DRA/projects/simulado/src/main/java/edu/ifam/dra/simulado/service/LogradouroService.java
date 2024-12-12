@@ -50,4 +50,12 @@ public class LogradouroService {
         }
     }
 
+    public LogradouroOutputDTO update(LogradouroInputDTO logradouroInputDTO){
+        Logradouro logradouro = logradouroInputDTO.build(cidadeRepository);
+        if(logradouroRepository.existsById(logradouro.getCep()))
+            return new LogradouroOutputDTO(logradouroRepository.save(logradouro));
+        else
+            return null;
+    }
+
 }

@@ -1,7 +1,10 @@
 package edu.ifam.dra.simulado.service;
 
+import edu.ifam.dra.simulado.dto.LogradouroInputDTO;
+import edu.ifam.dra.simulado.dto.LogradouroOutputDTO;
 import edu.ifam.dra.simulado.dto.PessoaInputDTO;
 import edu.ifam.dra.simulado.dto.PessoaOutputDTO;
+import edu.ifam.dra.simulado.model.Logradouro;
 import edu.ifam.dra.simulado.model.Pessoa;
 import edu.ifam.dra.simulado.repository.LogradouroRepository;
 import edu.ifam.dra.simulado.repository.PessoaRepository;
@@ -44,5 +47,13 @@ public class PessoaService {
         }else{
             return false;
         }
+    }
+
+    public PessoaOutputDTO update(PessoaInputDTO pessoaInputDTO){
+        Pessoa pessoa = pessoaInputDTO.build(logradouroRepository);
+        if(pessoaRepository.existsById(pessoa.getCpf()))
+            return new PessoaOutputDTO(pessoaRepository.save(pessoa));
+        else
+            return null;
     }
 }
