@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -22,11 +19,15 @@ public class VoluntarioController {
     private VoluntarioService voluntarioService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VoluntarioOutputDTO> create(VoluntarioInputDTO voluntarioInput){
+    public ResponseEntity<VoluntarioOutputDTO> create(@RequestBody VoluntarioInputDTO voluntarioInput){
         try{
-            
+            VoluntarioOutputDTO voluntarioDTO = voluntarioService.create(voluntarioInput);
+            if(voluntarioDTO != null)
+                return new ResponseEntity<>(voluntarioDTO, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -42,4 +43,31 @@ public class VoluntarioController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    @GetMapping(value = "/{passaporte}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VoluntarioOutputDTO> findByPassaporte(@PathVariable String passaporte){
+        try{
+            VoluntarioOutputDTO voluntarioDTO = voluntarioService.findByPassaporte(passaporte);
+            if(voluntarioDTO != null)
+                return new ResponseEntity<>(voluntarioDTO, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @DeleteMapping(value = "/{passaporte}")
+    public ResponseEntity<String> delete(@PathVariable String passaporte){
+        try{
+            boolean deleted = voluntarioService.delete(passaporte);
+            if (deleted)
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            else
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
 }
