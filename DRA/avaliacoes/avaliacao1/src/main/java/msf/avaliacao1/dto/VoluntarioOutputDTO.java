@@ -1,36 +1,29 @@
-package msf.avaliacao1.model;
+package msf.avaliacao1.dto;
 
-import jakarta.persistence.*;
+import msf.avaliacao1.model.Voluntario;
 
-@Entity
-public class Voluntario {
-
-    @Id
-    @Column(nullable = false, unique = true)
+public class VoluntarioOutputDTO {
     private String passaporte;
-
-    @Column(nullable = false)
     private String nome;
-
-    @Column(nullable = false)
     private String idade;
-
-    @Column(nullable = false)
     private String telefone;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String tipoSanguineo;
+    private String estadoDeSaude;
+    private String cidadeInteresse;
+    private String pais;
 
-    @ManyToOne
-    @JoinColumn(name = "cidade_id", nullable = false)
-    private Cidade cidadeInteresse;
-
-    @ManyToOne
-    @JoinColumn(name = "estado_de_saude_id", nullable = false)
-    private EstadoDeSaude estadoDeSaude;
+    public VoluntarioOutputDTO(Voluntario voluntario){
+        this.passaporte = voluntario.getPassaporte();
+        this.nome = voluntario.getNome();
+        this.idade = voluntario.getIdade();
+        this.telefone = voluntario.getTelefone();
+        this.email = voluntario.getEmail();
+        this.tipoSanguineo = voluntario.getTipoSanguineo();
+        this.estadoDeSaude = voluntario.getEstadoDeSaude().getEstadoDeSaude();
+        this.cidadeInteresse = voluntario.getCidadeInteresse().getNome();
+        this.pais = voluntario.getCidadeInteresse().getPais().getNome();
+    }
 
     public String getPassaporte() {
         return passaporte;
@@ -80,19 +73,27 @@ public class Voluntario {
         this.tipoSanguineo = tipoSanguineo;
     }
 
-    public Cidade getCidadeInteresse() {
-        return cidadeInteresse;
-    }
-
-    public void setCidadeInteresse(Cidade cidadeInteresse) {
-        this.cidadeInteresse = cidadeInteresse;
-    }
-
-    public EstadoDeSaude getEstadoDeSaude() {
+    public String getEstadoDeSaude() {
         return estadoDeSaude;
     }
 
-    public void setEstadoDeSaude(EstadoDeSaude estadoDeSaude) {
+    public void setEstadoDeSaude(String estadoDeSaude) {
         this.estadoDeSaude = estadoDeSaude;
+    }
+
+    public String getCidadeInteresse() {
+        return cidadeInteresse;
+    }
+
+    public void setCidadeInteresse(String cidadeInteresse) {
+        this.cidadeInteresse = cidadeInteresse;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 }
