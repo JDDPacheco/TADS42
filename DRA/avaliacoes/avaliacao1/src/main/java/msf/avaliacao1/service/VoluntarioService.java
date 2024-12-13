@@ -24,7 +24,7 @@ public class VoluntarioService {
     @Autowired
     private EstadoDeSaudeRepository estadoDeSaudeRepository;
 
-    private VoluntarioOutputDTO create(VoluntarioInputDTO voluntarioInputDTO){
+    public VoluntarioOutputDTO create(VoluntarioInputDTO voluntarioInputDTO){
         Voluntario voluntario_recebido = new Voluntario();
         Voluntario voluntario_salvo = new Voluntario();
         if(voluntarioRepository.existsById(voluntarioInputDTO.getPassaporte()))
@@ -50,7 +50,7 @@ public class VoluntarioService {
         }
     }
 
-    private List<VoluntarioOutputDTO> list(){
+    public List<VoluntarioOutputDTO> list(){
         List<Voluntario> voluntarios = voluntarioRepository.findAll();
         List<VoluntarioOutputDTO> voluntariosDTO = new ArrayList<>();
         if(voluntarios.isEmpty())
@@ -61,6 +61,27 @@ public class VoluntarioService {
             }
             return voluntariosDTO;
         }
+    }
+
+    public VoluntarioOutputDTO findByPassaporte(String passaporte){
+        Voluntario voluntario_encontrado = voluntarioRepository.findById(passaporte).get();
+        if(voluntarioRepository.existsById(passaporte))
+            return new VoluntarioOutputDTO(voluntario_encontrado);
+        else
+            return null;
+    }
+
+    public boolean delete(String passaporte){
+        Voluntario voluntario_encontrado = voluntarioRepository.findById(passaporte).get();
+        if(voluntarioRepository.existsById(passaporte)){
+            voluntarioRepository.delete(voluntario_encontrado);
+            if(voluntarioRepository.existsById(passaporte))
+                return false; // o voluntário não foi excluido
+            else
+                return true; // voluntario excluido
+        }
+        else
+            return false; // o voluntario não existe
     }
 
 }
