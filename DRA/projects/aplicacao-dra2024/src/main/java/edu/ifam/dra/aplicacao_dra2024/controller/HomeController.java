@@ -6,9 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
+
     @GetMapping
     public String iniciar(){
-        return "Testando minha aplicação SpringBoot.";
+
+        System.out.println("Console: aplicação rodando...");
+
+        return "Testando minha aplicação Spring Boot.";
     }
 
 }

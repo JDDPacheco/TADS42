@@ -1,5 +1,6 @@
 package edu.ifam.dra.aplicacao_dra2024.model;
 
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,7 +12,7 @@ public class Pessoa {
 
     private String nome;
 
-    private  String email;
+    private String email;
 
     @ManyToOne
     private Cidade cidade;

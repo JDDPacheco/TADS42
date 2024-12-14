@@ -3,23 +3,31 @@ package edu.ifam.dra.aplicacao_dra2024.controller;
 import edu.ifam.dra.aplicacao_dra2024.dto.PessoaInputDTO;
 import edu.ifam.dra.aplicacao_dra2024.dto.PessoaOutputDTO;
 import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
-import edu.ifam.dra.aplicacao_dra2024.repository.PessoaRepository;
 import edu.ifam.dra.aplicacao_dra2024.repository.CidadeRepository;
+import edu.ifam.dra.aplicacao_dra2024.repository.PessoaRepository;
 import edu.ifam.dra.aplicacao_dra2024.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.awt.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/pessoa")
+@RequestMapping("/api/pessoas")
 public class PessoaController {
+
 
     @Autowired
     private PessoaRepository pessoaRepository;
@@ -32,76 +40,69 @@ public class PessoaController {
 
     @GetMapping
     public ResponseEntity<List<PessoaOutputDTO>> list(){
-        try{
-            List<PessoaOutputDTO> pessoasDTO = pessoaService.list();
-            if(!pessoasDTO.isEmpty()){
-                return new ResponseEntity<>(pessoasDTO, HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
-        }
-    }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PessoaOutputDTO> create(@RequestBody PessoaInputDTO pessoaInputDTO){
-        try{
-            Pessoa pessoa = pessoaInputDTO.build(cidadeRepository);
-            if(pessoa.getEmail() == "" || pessoa.getEmail() == null){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } else if(pessoa.getNome() == "" || pessoa.getNome() == null){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } else if(!cidadeRepository.existsById(pessoa.getCidade().getId())){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+        List<PessoaOutputDTO> pessoasDTO = pessoaService.list();
 
-            Pessoa pessoa_created = pessoaRepository.save(pessoa);
-
-            /** Início Testes: */
-            /** Forçar erro de não criar a pessoa*/
-                //pessoaRepository.deleteById(pessoa_created.getId());
-            /** Fim Teste*/
-
-            if(pessoaRepository.existsById(pessoa_created.getId())) {
-                return new ResponseEntity<>(new PessoaOutputDTO(pessoa_created), HttpStatus.CREATED);
-            }else{
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
-        }
-    }
-
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Pessoa> getById(@PathVariable Long id){
-        if(pessoaRepository.existsById(id)){
-            Pessoa pessoa = pessoaRepository.findById(id).get();
-            return new ResponseEntity<>(pessoa, HttpStatus.OK);
+        if(!pessoasDTO.isEmpty()){
+            return new ResponseEntity<>(pessoasDTO,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-    };
+    }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EntityModel<PessoaOutputDTO>> create(@RequestBody PessoaInputDTO pessoaInputDTO, UriComponentsBuilder uriBuilder)
+    {
+
+        http://localhost:8080/api/pessoas
 
         try {
-            // Verifica se o registro existe antes de tentar excluir
-            if (pessoaRepository.existsById(id)) {
-                pessoaRepository.deleteById(id);
-                // Verifica se a exclusão foi bem-sucedida
-                if (!pessoaRepository.existsById(id)) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT); // deletou com sucesso
-                } else {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // não foi deletado
-                }
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // not found
-            }
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Pessoa pessoa = pessoaInputDTO.build(cidadeRepository);
+            Pessoa pessoaCriada = pessoaRepository.save(pessoa);
+            PessoaOutputDTO pessoaOutputDTO = new PessoaOutputDTO(pessoaCriada);
+
+            UriComponents uriComponents = uriBuilder.path("api/pessoas/{id}").buildAndExpand(pessoaOutputDTO.getId());
+            URI uri = uriComponents.toUri();
+
+            Link selfLink = WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PessoaController.class).getById(pessoaOutputDTO.getId())
+            ).withSelfRel();
+
+            Link deleteLink = WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PessoaController.class).deleteById(pessoaOutputDTO.getId())
+            ).withRel("delete-pessoas");
+
+            EntityModel<PessoaOutputDTO>resource = EntityModel.of(pessoaOutputDTO,selfLink,deleteLink);
+
+            return ResponseEntity.created(uri).contentType(MediaType.APPLICATION_JSON).body(resource);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
+        }
+
+    }
+
+
+    //    http://localhost:8080/api/pessoa/1
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Pessoa getById(@PathVariable Long id){
+        return pessoaRepository.findById(id).get();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id) {
+        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+        if (pessoa.isPresent()) {
+            pessoaRepository.delete(pessoa.get());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+
+
 
 }

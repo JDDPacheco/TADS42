@@ -3,15 +3,16 @@ package edu.ifam.dra.aplicacao_dra2024.dto;
 import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
 
 public class PessoaOutputDTO {
+
     private Long id;
     private String nome;
     private String email;
     private String cidade;
 
     public PessoaOutputDTO(Pessoa pessoa) {
+        this.id = pessoa.getId();
         this.nome = pessoa.getNome();
         this.email = pessoa.getEmail();
-        this.id = pessoa.getId();
         this.cidade = pessoa.getCidade().getNome();
     }
 

@@ -2,22 +2,26 @@ package edu.ifam.dra.aplicacao_dra2024.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 public class Cidade {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false,unique = true)
     private String nome;
 
     private String estado;
 
-    @OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY)
-    private List<Pessoa> pessoas = new ArrayList<>();
+    public Cidade() {
+    }
+
+    public Cidade(Long id, String nome, String estado) {
+        this.id = id;
+        this.nome = nome;
+        this.estado = estado;
+    }
 
     public Long getId() {
         return id;
@@ -43,11 +47,12 @@ public class Cidade {
         this.estado = estado;
     }
 
-    public List<Pessoa> getPessoas() {
-        return pessoas;
-    }
-
-    public void setPessoas(List<Pessoa> pessoas) {
-        this.pessoas = pessoas;
+    @Override
+    public String toString() {
+        return "Cidade{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", estado='" + estado + '\'' +
+                '}';
     }
 }

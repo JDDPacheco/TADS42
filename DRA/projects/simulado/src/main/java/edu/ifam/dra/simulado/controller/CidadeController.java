@@ -2,8 +2,6 @@ package edu.ifam.dra.simulado.controller;
 
 import edu.ifam.dra.simulado.dto.CidadeInputDTO;
 import edu.ifam.dra.simulado.dto.CidadeOutputDTO;
-import edu.ifam.dra.simulado.model.Cidade;
-import edu.ifam.dra.simulado.repository.EstadoRepository;
 import edu.ifam.dra.simulado.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

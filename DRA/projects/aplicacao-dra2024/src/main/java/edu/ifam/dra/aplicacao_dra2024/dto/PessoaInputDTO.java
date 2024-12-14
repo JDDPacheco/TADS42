@@ -1,9 +1,12 @@
 package edu.ifam.dra.aplicacao_dra2024.dto;
 
+import edu.ifam.dra.aplicacao_dra2024.model.Cidade;
 import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
 import edu.ifam.dra.aplicacao_dra2024.repository.CidadeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class PessoaInputDTO {
+
     private String nome;
     private String email;
     private String cidade;
@@ -42,5 +45,4 @@ public class PessoaInputDTO {
         pessoa.setCidade(cidadeRepository.findByNome(this.cidade));
         return pessoa;
     }
-
 }
