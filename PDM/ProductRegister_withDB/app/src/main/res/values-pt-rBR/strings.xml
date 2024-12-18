@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Registro de Produtos</string>
+    <string name="res_code">Código de Fornecedor</string>
+    <string name="res_name">Nome do Fornecedor</string>
+    <string name="res_telefone">Telefone do Fornecedor</string>
+    <string name="res_email">e-mail do Fornecedor</string>
+    <string name="res_endereco">Endereço do Fornecedor</string>
+    <string name="save">Salvo!</string>
+    <string name="delete">Excluído!</string>
+    <string name="clear">Limpo!</string>
+    <string name="add_fornecedor">Adicionar Fornecedor</string>
+</resources>

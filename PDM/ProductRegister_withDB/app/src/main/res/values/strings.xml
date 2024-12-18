@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ProductRegister</string>
+    <string name="res_code">Supplier code</string>
+    <string name="res_name">Supplier name</string>
+    <string name="res_telefone">Supplier phone number</string>
+    <string name="res_email">Supplier e-mail address</string>
+    <string name="res_endereco">Supplier address</string>
+    <string name="save">Saved!</string>
+    <string name="delete">Deleted!</string>
+    <string name="clear">Cleared!</string>
+    <string name="add_fornecedor">Add supplier</string>
+</resources>
