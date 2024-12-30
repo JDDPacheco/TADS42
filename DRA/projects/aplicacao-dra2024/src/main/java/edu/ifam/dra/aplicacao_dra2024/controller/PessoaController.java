@@ -58,9 +58,7 @@ public class PessoaController {
         http://localhost:8080/api/pessoas
 
         try {
-            Pessoa pessoa = pessoaInputDTO.build(cidadeRepository);
-            Pessoa pessoaCriada = pessoaRepository.save(pessoa);
-            PessoaOutputDTO pessoaOutputDTO = new PessoaOutputDTO(pessoaCriada);
+            PessoaOutputDTO pessoaOutputDTO = pessoaService.create(pessoaInputDTO);
 
             UriComponents uriComponents = uriBuilder.path("api/pessoas/{id}").buildAndExpand(pessoaOutputDTO.getId());
             URI uri = uriComponents.toUri();

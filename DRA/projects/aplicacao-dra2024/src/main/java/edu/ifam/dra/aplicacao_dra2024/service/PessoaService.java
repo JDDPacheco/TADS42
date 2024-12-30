@@ -1,7 +1,9 @@
 package edu.ifam.dra.aplicacao_dra2024.service;
 
+import edu.ifam.dra.aplicacao_dra2024.dto.PessoaInputDTO;
 import edu.ifam.dra.aplicacao_dra2024.dto.PessoaOutputDTO;
 import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
+import edu.ifam.dra.aplicacao_dra2024.repository.CidadeRepository;
 import edu.ifam.dra.aplicacao_dra2024.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,9 @@ public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
+    @Autowired
+    private CidadeRepository cidadeRepository;
+
     public List<PessoaOutputDTO> list(){
 
         List<Pessoa> pessoas = pessoaRepository.findAll();
@@ -27,6 +32,16 @@ public class PessoaService {
         }
 
         return pessoasDTO;
+    }
+
+    public PessoaOutputDTO create(PessoaInputDTO pessoaInputDTO){
+        try{
+            Pessoa pessoa = pessoaInputDTO.build(cidadeRepository);
+            Pessoa pessoaCriada = pessoaRepository.save(pessoa);
+            return new PessoaOutputDTO(pessoaCriada);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
