@@ -23,15 +23,18 @@ public class PessoaService {
     private CidadeRepository cidadeRepository;
 
     public List<PessoaOutputDTO> list(){
+        try {
+            List<Pessoa> pessoas = pessoaRepository.findAll();
+            List<PessoaOutputDTO> pessoasDTO = new ArrayList<>();
 
-        List<Pessoa> pessoas = pessoaRepository.findAll();
-        List<PessoaOutputDTO> pessoasDTO = new ArrayList<>();
+            for (Pessoa pessoa : pessoas) {
+                pessoasDTO.add(new PessoaOutputDTO(pessoa));
+            }
 
-        for(Pessoa pessoa:pessoas){
-            pessoasDTO.add(new PessoaOutputDTO(pessoa));
+            return pessoasDTO;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        return pessoasDTO;
     }
 
     public PessoaOutputDTO create(PessoaInputDTO pessoaInputDTO){
@@ -39,6 +42,14 @@ public class PessoaService {
             Pessoa pessoa = pessoaInputDTO.build(cidadeRepository);
             Pessoa pessoaCriada = pessoaRepository.save(pessoa);
             return new PessoaOutputDTO(pessoaCriada);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public PessoaOutputDTO getById(Long id){
+        try{
+            return new PessoaOutputDTO(pessoaRepository.findById(id).get());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
