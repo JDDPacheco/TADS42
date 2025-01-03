@@ -6,6 +6,9 @@ import edu.ifam.dra.aplicacao_dra2024.model.Pessoa;
 import edu.ifam.dra.aplicacao_dra2024.repository.CidadeRepository;
 import edu.ifam.dra.aplicacao_dra2024.repository.PessoaRepository;
 import edu.ifam.dra.aplicacao_dra2024.service.PessoaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -26,6 +29,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pessoas")
+@Tag(name = "Pessoas", description = "APIs para gerenciamento de pessoas")
 public class PessoaController {
 
 
@@ -39,6 +43,7 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @GetMapping
+    @Operation(summary = "Listar todas as pessoas", description = "Retorna uma lista de todas as pessoas registradas.")
     public ResponseEntity<List<PessoaOutputDTO>> list(){
 
         List<PessoaOutputDTO> pessoasDTO = pessoaService.list();
@@ -52,15 +57,14 @@ public class PessoaController {
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Criar uma nova pessoa", description = "Adiciona a nova pessoa ao banco de dados e retorna a pessoa adicionada.")
     public ResponseEntity<EntityModel<PessoaOutputDTO>> create(@RequestBody PessoaInputDTO pessoaInputDTO, UriComponentsBuilder uriBuilder)
     {
 
         http://localhost:8080/api/pessoas
 
         try {
-            Pessoa pessoa = pessoaInputDTO.build(cidadeRepository);
-            Pessoa pessoaCriada = pessoaRepository.save(pessoa);
-            PessoaOutputDTO pessoaOutputDTO = new PessoaOutputDTO(pessoaCriada);
+            PessoaOutputDTO pessoaOutputDTO = pessoaService.create(pessoaInputDTO);
 
             UriComponents uriComponents = uriBuilder.path("api/pessoas/{id}").buildAndExpand(pessoaOutputDTO.getId());
             URI uri = uriComponents.toUri();
@@ -86,23 +90,30 @@ public class PessoaController {
 
     //    http://localhost:8080/api/pessoa/1
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Pessoa getById(@PathVariable Long id){
-        return pessoaRepository.findById(id).get();
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id) {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-        if (pessoa.isPresent()) {
-            pessoaRepository.delete(pessoa.get());
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @Operation(summary = "Buscar pessoa por ID", description = "Retorna os detalhes de uma pessoa específica.")
+    public ResponseEntity<PessoaOutputDTO> getById(@PathVariable Long id){
+        try {
+            PessoaOutputDTO pessoaLocalizada = pessoaService.getById(id);
+            return new ResponseEntity<>(pessoaLocalizada, HttpStatus.FOUND);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
-
-
-
+    @DeleteMapping(value = "/{id}")
+    @Operation(summary = "Deleta pessoa por ID", description = "Tenta excluí a pessoa e retorna o status da operação.")
+    public ResponseEntity<HttpStatus> deleteById(@PathVariable Long id) {
+        try {
+            Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+            if (pessoa.isPresent()) {
+                pessoaRepository.delete(pessoa.get());
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
+        }
+    }
 
 }
