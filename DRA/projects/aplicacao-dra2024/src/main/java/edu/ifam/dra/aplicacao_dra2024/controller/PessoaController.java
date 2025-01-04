@@ -32,7 +32,6 @@ import java.util.Optional;
 @Tag(name = "Pessoas", description = "APIs para gerenciamento de pessoas")
 public class PessoaController {
 
-
     @Autowired
     private PessoaRepository pessoaRepository;
 
