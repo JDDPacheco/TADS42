@@ -12,6 +12,7 @@ public class Cidade {
     @Column(nullable = false,unique = true)
     private String nome;
 
+    @Column(nullable = false,unique = false)
     private String estado;
 
     public Cidade() {

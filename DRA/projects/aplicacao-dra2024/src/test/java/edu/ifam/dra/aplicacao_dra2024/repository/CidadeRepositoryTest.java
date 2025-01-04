@@ -27,7 +27,6 @@ public class CidadeRepositoryTest {
         assertThat(cidadeSalva.getId()).isNotNull();
         assertThat(cidadeSalva.getNome()).isEqualTo("Manaus");
         assertThat(cidadeSalva.getEstado()).isEqualTo("AM");
-
     }
 
     @Test
@@ -40,7 +39,6 @@ public class CidadeRepositoryTest {
         assertThrows(DataIntegrityViolationException.class, () -> {
             cidadeRepository.save(cidade);
         });
-
     }
 
     @Test
@@ -50,16 +48,30 @@ public class CidadeRepositoryTest {
         cidade.setNome("Manaus");
         cidade.setEstado(null);
 
-        Cidade cidadeSalva = cidadeRepository.save(cidade);
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            cidadeRepository.save(cidade);
+        });
+    }
 
-        assertThat(cidadeSalva.getId()).isNotNull();
-        assertThat(cidadeSalva.getNome()).isEqualTo("Manaus");
-        assertThat(cidadeSalva.getEstado()).isEqualTo("AM");
+    @Test
+    public void naoDeveSalvarCidadeRepetida(){
 
-        //assertThrows(DataIntegrityViolationException.class, () -> {
-        //    cidadeRepository.save(cidade);
-        //});
+        // Condição Inicial
 
+        Cidade cidadeJaSalva = new Cidade();
+        cidadeJaSalva.setNome("São Paulo");
+        cidadeJaSalva.setEstado("SP");
+        cidadeRepository.save(cidadeJaSalva);
+
+        // Roteiro de Teste
+
+        Cidade novaCidade = new Cidade();
+        novaCidade.setNome("Manaus");
+        novaCidade.setEstado("AM");
+
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            cidadeRepository.save(novaCidade);
+        });
     }
 
 }
