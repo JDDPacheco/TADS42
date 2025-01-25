@@ -16,14 +16,6 @@ public class Produto {
     @Column(nullable = false)
     private float preco;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "produto_venda",
-            joinColumns = @JoinColumn(name = "produto_id"),
-            inverseJoinColumns = @JoinColumn(name = "venda_id")
-    )
-    private List<Venda> vendas;
-
     public Produto() {}
 
     public Produto(Long id, String nome, float preco) {

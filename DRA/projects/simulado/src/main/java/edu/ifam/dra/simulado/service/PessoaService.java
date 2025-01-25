@@ -36,14 +36,19 @@ public class PessoaService {
         return new PessoaOutputDTO(pessoaRepository.save(pessoaInputDTO.build(logradouroRepository)));
     }
 
-    public PessoaOutputDTO findByCPF(String cpf){
-        return new PessoaOutputDTO(pessoaRepository.findById(cpf).get());
+    public List<PessoaOutputDTO> findByNome(String nome){
+        List<Pessoa> pessoas = pessoaRepository.findByNome(nome);
+        List<PessoaOutputDTO> pessoasDTO = new ArrayList<>();
+        for(Pessoa pessoa: pessoas){
+            pessoasDTO.add(new PessoaOutputDTO(pessoa));
+        }
+        return pessoasDTO;
     }
 
-    public boolean delete(String cpf){
-        if(pessoaRepository.existsById(cpf)){
-            pessoaRepository.deleteById(cpf);
-            return !pessoaRepository.existsById(cpf);
+    public boolean delete(Long id){
+        if(pessoaRepository.existsById(id)){
+            pessoaRepository.deleteById(id);
+            return !pessoaRepository.existsById(id);
         }else{
             return false;
         }
@@ -51,7 +56,7 @@ public class PessoaService {
 
     public PessoaOutputDTO update(PessoaInputDTO pessoaInputDTO){
         Pessoa pessoa = pessoaInputDTO.build(logradouroRepository);
-        if(pessoaRepository.existsById(pessoa.getCpf()))
+        if(pessoaRepository.existsById(pessoa.getId()))
             return new PessoaOutputDTO(pessoaRepository.save(pessoa));
         else
             return null;

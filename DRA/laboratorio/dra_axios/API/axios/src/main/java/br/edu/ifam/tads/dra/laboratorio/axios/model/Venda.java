@@ -14,14 +14,21 @@ public class Venda {
     private String mes;
 
     @ManyToMany(mappedBy = "vendas", fetch = FetchType.LAZY)
-    private List<Produto> produtos;
+    private List<ItemVenda> itensVenda;
+
+    private float valorTotal;
 
     public Venda() {}
 
-    public Venda(Long id, String mes, List<Produto> produtos) {
+    public Venda(Long id, String mes, List<ItemVenda> itensVenda) {
         this.id = id;
         this.mes = mes;
-        this.produtos = produtos;
+        this.itensVenda = itensVenda;
+        float valorTotal = 0;
+        for(ItemVenda item: itensVenda){
+            valorTotal = valorTotal + item.getValorItemVenda();
+        }
+        this.valorTotal = valorTotal;
     }
 
     public Long getId() {
@@ -40,11 +47,19 @@ public class Venda {
         this.mes = mes;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public float getValorTotal() {
+        return valorTotal;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setValorTotal(float valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public List<ItemVenda> getItensVenda() {
+        return itensVenda;
+    }
+
+    public void setItensVenda(List<ItemVenda> itensVenda) {
+        this.itensVenda = itensVenda;
     }
 }

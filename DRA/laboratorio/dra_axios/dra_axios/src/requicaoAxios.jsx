@@ -62,7 +62,7 @@ export const chartData = {
       },
       title: {
         display: true,
-        text: 'Sales by Month',
+        text: 'id das Pessoas',
       },
     },
   };

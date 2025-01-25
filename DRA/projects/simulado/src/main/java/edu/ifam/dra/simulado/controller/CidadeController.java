@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cidade")
+@RequestMapping("/api/cidades")
 public class CidadeController {
 
     @Autowired
