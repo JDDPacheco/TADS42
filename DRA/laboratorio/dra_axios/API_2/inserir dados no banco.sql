@@ -1,4 +1,4 @@
-drop database `ifam_dra_lab_axios_api_v2`;
+-- drop database `ifam_dra_lab_axios_api_v2`;
 use `ifam_dra_lab_axios_api_v2`;
 
 insert into interesse (area_de_interesse) values
