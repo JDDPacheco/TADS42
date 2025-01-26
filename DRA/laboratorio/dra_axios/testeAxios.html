@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GET Pessoas com Axios</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>Lista de Pessoas</h1>
+  <button id="getPessoas">Carregar Pessoas</button>
+  <div id="pessoas"></div>
+
+  <script>
+    document.getElementById('getPessoas').addEventListener('click', () => {
+      axios.get('http://localhost:8080/api/pessoas')
+        .then(response => {
+          // Exibe os dados no console
+          console.log(response.data);
+
+          // Exibe os dados na página
+          const pessoasDiv = document.getElementById('pessoas');
+          pessoasDiv.innerHTML = ''; // Limpa o conteúdo antes
+          response.data.forEach(pessoa => {
+            const pessoaDiv = document.createElement('div');
+            pessoaDiv.textContent = `Matrícula: ${pessoa.matricula}, Nome: ${pessoa.nome}, Interesse: ${pessoa.areaInteresse}`;
+            pessoasDiv.appendChild(pessoaDiv);
+          });
+        })
+        .catch(error => {
+          console.error('Erro ao buscar as pessoas:', error);
+        });
+    });
+  </script>
+</body>
+</html>
