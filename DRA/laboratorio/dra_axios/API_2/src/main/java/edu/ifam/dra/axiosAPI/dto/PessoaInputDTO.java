@@ -7,7 +7,7 @@ public class PessoaInputDTO{
 
     private String nome;
     private String matricula;
-    private String interesse;
+    private String areaInteresse;
 
     public String getNome() {
         return nome;
@@ -25,19 +25,19 @@ public class PessoaInputDTO{
         this.matricula = matricula;
     }
 
-    public String getInteresse() {
-        return interesse;
+    public String getAreaInteresse() {
+        return areaInteresse;
     }
 
-    public void setInteresse(String interesse) {
-        this.interesse = interesse;
+    public void setAreaInteresse(String areaInteresse) {
+        this.areaInteresse = areaInteresse;
     }
 
     public Pessoa build(InteresseRepository interesseRepository){
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(this.nome);
         pessoa.setMatricula(this.matricula);
-        pessoa.setInteresse(interesseRepository.findByNome(this.interesse));
+        pessoa.setInteresse(interesseRepository.findByNome(this.areaInteresse));
         return pessoa;
     }
 }
